@@ -3,7 +3,7 @@
 
 Switch from Windows to Linux without a USB.
 
-This has only been tested on a Windows VM and not on bare metal!
+This has only been tested on a Windows VM, not on bare metal!
 
 # Instructions - Windows
 1. Download an ISO for your preferred Linux distribution.
