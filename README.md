@@ -1,9 +1,7 @@
 # Linactux (beta)
-**It is still recommended to use a USB to switch from Windows to Linux, this tool should be used if too many options have been exhausted.**
+**It is still recommended to use a USB to switch from Windows to Linux, this tool should be used if too many options have been exhausted, this tool hasn't been yet tested on bare metal!**
 
 Switch from Windows to Linux without a USB.
-
-This has only been tested on a Windows VM, not on bare metal!
 
 # Instructions - Windows
 1. Download an ISO for your preferred Linux distribution.
