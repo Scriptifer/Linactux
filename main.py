@@ -43,8 +43,8 @@ if "True" in check_process.stdout:
 
 
 if input("Do you want to attempt to remove the Windows license key, and from the firmware too? ").lower().startswith("y"):
-    subprocess.run(["slmgr", "/upk"])
-    subprocess.run(["slmgr", "/cpky"])
+    os.system("slmgr /upk")
+    os.system("slmgr /cpky")
 
 system_disk = "C:/"
 total, used, free = shutil.disk_usage(system_disk)
