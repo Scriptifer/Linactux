@@ -42,10 +42,6 @@ if "True" in check_process.stdout:
         shutdown_cmd = shutdown_cmd + " /fw"
 
 
-if input("Do you want to attempt to remove the Windows license key, and from the firmware too? ").lower().startswith("y"):
-    os.system("slmgr /upk")
-    os.system("slmgr /cpky")
-
 system_disk = "C:/"
 total, used, free = shutil.disk_usage(system_disk)
 wants_files = input("Do you want to create a new partition to put your files in so then you can access it on the new OS? ").lower().startswith("y")
