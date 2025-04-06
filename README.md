@@ -1,13 +1,34 @@
-# Linactux (beta)
-**It is still recommended to use a USB to switch from Windows to Linux. This tool has been tested on bare metal and all Linux distributions may not work. We tested Linux Mint Cinnamon Edition and it is functional.**
+# Linactux 
+Switch from Windows to Linux *without* needing a USB.
 
-Switch from Windows to Linux without a USB.
+> ⚠️ **Note:**  
+While Linactux has been successfully tested on bare metal with Linux Mint Cinnamon Edition, compatibility with all Linux distributions is *not* guaranteed. For best results, a USB installation is still recommended.
 
-# Instructions - Windows
-1. Download an ISO for your preferred Linux distribution.
-2. Download Python for Windows if you haven't already.
-3. Download the repository, extract it and go inside and run `main.py` as admin.
-4. You can decide whether or not to create a partition to temporarily store files to go along with the Linux installation.
-5. Then you can enter the path to the ISO, e.g. `C:/Users/user/Downloads/myiso.iso`.
-6. After that, the script will begin and wait for you to transfer files onto the partition if you specifically did so, it will really make sure you're done.
-7. Finally, it will destroy the Windows bootloader and reboot in order to prevent booting into Windows and straight into Linux.
+---
+
+## 🔧 Instructions – Windows
+
+1. **Download a Linux ISO**  
+   Choose and download the ISO file of your preferred Linux distribution.
+
+2. **Install Python (if not already installed)**  
+   Get it from the official site: [python.org/downloads/windows](https://www.python.org/downloads/windows)
+
+3. **Download Linactux**  
+   - Extract the ZIP.  
+   - Open the extracted folder.  
+   - Run `main.py` and press Yes on the UAC prompt.
+
+4. **Choose a Temporary Partition (Optional)**  
+   You’ll have the option to create a temporary partition to store files needed during the Linux install.
+
+5. **Enter the ISO Path**  
+   Example: `C:/Users/yourname/Downloads/linuxmint.iso`
+
+6. **Transfer Files (if using a partition)**  
+   The script will wait for you to finish copying files into the partition, ensuring you’re ready before proceeding.
+
+7. **Finalize Installation**  
+   Once confirmed, Linactux will **remove the Windows bootloader** and reboot your system directly into the Linux installer.
+
+---
