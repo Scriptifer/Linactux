@@ -136,7 +136,7 @@ letter_assign = get_letter()
 process.stdin.write("assign letter="+letter_assign+"\n")
 process.communicate()
 subprocess.run(["xcopy", mounted_letter+":\\*.*", letter_assign+":\\", "/s/e/f"])
-subprocess.run(["bootsect", "/nt60", mounted_letter+":", "/force", "/mbr"])
+subprocess.run(["bootsect", "/NT60", mounted_letter+":\\", "/force", "/mbr"])
 if wants_files:
     process = subprocess.Popen(
         ["diskpart"],
@@ -194,5 +194,6 @@ letter_assign = get_letter()
 process.stdin.write("assign letter="+letter_assign+"\n")
 process.communicate()
 os.system(r'''cmd /c "bcdedit /enum all | findstr /i "identifier" | for /f "tokens=2 delims={}" %a in ('more') do bcdedit /delete {%a} /f"''')
-os.system("rmdir /S /Q "+letter_assign+":\\")
+os.system("rd "+letter_assign+":\\ /s /q")
+input("Press Enter to continue. ")
 os.system(shutdown_cmd)
