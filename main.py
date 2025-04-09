@@ -117,7 +117,7 @@ size_measure_p = subprocess.run(
     stdout=subprocess.PIPE,
     stderr=subprocess.PIPE
 )
-iso_mb = round(float(size_measure_p.stdout.strip()))
+iso_mb = round(float(size_measure_p.stdout.strip())) + 8
 total_size = iso_mb + files_size
 if (free / 1048576)-total_size < 0:
     print("You need to free up some space to leave room for the new OS and potentially your files.")
@@ -143,7 +143,7 @@ letter_assign = get_letter()
 process.stdin.write("assign letter="+letter_assign+"\n")
 process.communicate()
 subprocess.run(["xcopy", mounted_letter+":\\*.*", letter_assign+":\\", "/s/e/f"])
-subprocess.run(["bootsect", "/nt60", mounted_letter+":", "/force", "/mbr"])
+subprocess.run(["bootsect", "/nt60", letter_assign+":", "/force", "/mbr"])
 if wants_files:
     process = subprocess.Popen(
         ["diskpart"],
