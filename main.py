@@ -181,10 +181,14 @@ process = subprocess.Popen(
     text=True
 )
 process.stdin.write("select disk 0\n")
+efi_number = None
 for idx, partition in enumerate(json.loads(process1.stdout)):
+    partition_number = str(partition["PartitionNumber"])+"\n"
     if partition["Type"] == "Recovery" or partition["Type"] == "Reserved":
-        process.stdin.write("select partition "+str(partition["PartitionNumber"])+"\n")
+        process.stdin.write("select partition "+partition_number)
         process.stdin.write("delete partition override\n")
+    elif partition["Type"] == "System" and not efi_number:
+        efi_number = partition_number
 
 
 process.communicate()
@@ -196,13 +200,7 @@ process = subprocess.Popen(
     text=True
 )
 process.stdin.write("select disk 0\n")
-find_efi_number = subprocess.run([
-    'powershell', 
-    '-Command', 
-    "Get-Partition | Where-Object {$_.Type -eq 'EFI System Partition'} | Select-Object -ExpandProperty DiskNumber"
-], text=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-print(find_efi_number.stdout)
-process.stdin.write("select partition "+find_efi_number.stdout)
+process.stdin.write("select partition "+efi_number)
 letter_assign = get_letter()
 process.stdin.write("assign letter="+letter_assign+"\n")
 process.communicate()
