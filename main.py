@@ -136,7 +136,7 @@ letter_assign = get_letter()
 process.stdin.write("assign letter="+letter_assign+"\n")
 process.communicate()
 subprocess.run(["xcopy", mounted_letter+":\\*.*", letter_assign+":\\", "/s/e/f"])
-subprocess.run(["bootsect", "/NT60", mounted_letter+":\\", "/force", "/mbr"])
+subprocess.run(["bootsect", "/nt60", mounted_letter+":", "/force", "/mbr"])
 if wants_files:
     process = subprocess.Popen(
         ["diskpart"],
