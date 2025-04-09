@@ -110,7 +110,14 @@ if not mounted:
     sys.exit(1)
 
 mounted_letter = mounted['DriveLetter']
-iso_mb = math.floor(mounted['Size'] / 1048576) + 512
+size_measure_p = subprocess.run(
+    ["powershell", "-Command", "(Get-ChildItem -Recurse | Measure-Object -Property Length -Sum).Sum / 1MB"],
+    cwd=mounted_letter+":\\",
+    text=True,
+    stdout=subprocess.PIPE,
+    stderr=subprocess.PIPE
+)
+iso_mb = math.round(int(size_measure_p.stdout))
 total_size = iso_mb + files_size
 if (free / 1048576)-total_size < 0:
     print("You need to free up some space to leave room for the new OS and potentially your files.")
