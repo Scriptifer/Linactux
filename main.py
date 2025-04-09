@@ -117,7 +117,7 @@ size_measure_p = subprocess.run(
     stdout=subprocess.PIPE,
     stderr=subprocess.PIPE
 )
-iso_mb = math.round(int(size_measure_p.stdout))
+iso_mb = round(int(size_measure_p.stdout))
 total_size = iso_mb + files_size
 if (free / 1048576)-total_size < 0:
     print("You need to free up some space to leave room for the new OS and potentially your files.")
