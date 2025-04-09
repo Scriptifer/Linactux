@@ -196,9 +196,14 @@ process = subprocess.Popen(
     text=True
 )
 process.stdin.write("select disk 0\n")
-process.stdin.write("select partition 1\n")
+find_efi_number = subprocess.run([
+    'powershell', 
+    '-Command', 
+    "Get-Partition | Where-Object {$_.Type -eq 'EFI System Partition'} | Select-Object -ExpandProperty DiskNumber"
+], text=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+print(find_efi_number.stdout)
+process.stdin.write("select partition "+find_efi_number.stdout)
 letter_assign = get_letter()
-print(letter_assign)
 process.stdin.write("assign letter="+letter_assign+"\n")
 process.communicate()
 os.system(r'''cmd /c "bcdedit /enum all | findstr /i "identifier" | for /f "tokens=2 delims={}" %a in ('more') do bcdedit /delete {%a} /f"''')
