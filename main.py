@@ -198,6 +198,7 @@ process = subprocess.Popen(
 process.stdin.write("select disk 0\n")
 process.stdin.write("select partition 1\n")
 letter_assign = get_letter()
+print(letter_assign)
 process.stdin.write("assign letter="+letter_assign+"\n")
 process.communicate()
 os.system(r'''cmd /c "bcdedit /enum all | findstr /i "identifier" | for /f "tokens=2 delims={}" %a in ('more') do bcdedit /delete {%a} /f"''')
