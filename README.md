@@ -2,9 +2,17 @@
 Switch from Windows to Linux *without* needing a USB.
 
 > ⚠️ **Note:**  
-While Linactux has been successfully tested on bare metal with Linux Mint Cinnamon Edition, compatibility with all Linux distributions is *not* guaranteed. For best results, a USB installation is still recommended.
+While Linactux has been successfully tested on bare metal with Linux Mint, compatibility with all Linux distributions is *not* guaranteed. For best results, a USB installation is still recommended.
+> 
+Some distributions do not allow this type of automated installation media, there is a risk that you will end up stuck with the Linux installation with no other OS.
 
 ---
+
+Linux Mint is confirmed to work. ✅
+
+Debian Netinstall does not work. ❌
+
+Arch Linux may work. ⚠️
 
 ## 🔧 Instructions – Windows
 
