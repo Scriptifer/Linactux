@@ -142,7 +142,17 @@ process.stdin.write("format fs="+fs_typelinux+" quick\n")
 letter_assign = get_letter()
 process.stdin.write("assign letter="+letter_assign+"\n")
 process.communicate()
-subprocess.run(["xcopy", mounted_letter+":\\*.*", letter_assign+":\\", "/s/e/f"])
+src = mounted_letter + ":\\"
+dst = letter_assign + ":\\"
+for item in os.listdir(src):
+    s = os.path.join(src, item)
+    d = os.path.join(dst, item)
+    if os.path.isdir(s):
+        shutil.copytree(s, d, dirs_exist_ok=True)
+    else:
+        shutil.copy2(s, d)
+    
+
 if wants_files:
     process = subprocess.Popen(
         ["diskpart"],
