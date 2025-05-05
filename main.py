@@ -91,33 +91,7 @@ def get_letter():
 
     return letter_assign
 
-mount_process = subprocess.run(
-    ["powershell", "-Command", f"Mount-DiskImage -ImagePath '{iso_path}'; Get-Volume | Where-Object {{ $_.DriveType -eq 'CD-ROM' }} | ConvertTo-Json"],
-    stdout=subprocess.PIPE,
-    stderr=subprocess.PIPE,
-    text=True
-)
-mount_output = json.loads(mount_process.stdout.strip().split("\n\n")[1])
-mounted = None
-iso_mb = math.inf
-for idx, entry in enumerate(mount_output):
-    if not (entry['DriveLetter'] in prev_letters):
-        mounted = entry
-
-
-if not mounted:
-    print("Couldn't find mounted drive from ISO.")
-    sys.exit(1)
-
-mounted_letter = mounted['DriveLetter']
-size_measure_p = subprocess.run(
-    ["powershell", "-Command", "(Get-ChildItem -Recurse | Measure-Object -Property Length -Sum).Sum / 1MB"],
-    cwd=mounted_letter+":\\",
-    text=True,
-    stdout=subprocess.PIPE,
-    stderr=subprocess.PIPE
-)
-iso_mb = round(float(size_measure_p.stdout.strip())) + 64
+iso_mb = round(os.path.getsize(iso_path) / (1024 * 1024)) + 2
 total_size = iso_mb + files_size
 if (free / 1048576)-total_size < 0:
     print("You need to free up some space to leave room for the new OS and potentially your files.")
@@ -134,25 +108,10 @@ process.stdin.write("select disk 0\n")
 process.stdin.write("select volume C\n")
 process.stdin.write("shrink desired="+str(total_size)+"\n")
 process.stdin.write("create partition primary size="+str(iso_mb)+"\n")
-fs_typelinux = "fat32"
-if iso_mb > 3800:
-    fs_typelinux = "exfat"
-
-process.stdin.write("format fs="+fs_typelinux+" quick\n")
 letter_assign = get_letter()
 process.stdin.write("assign letter="+letter_assign+"\n")
 process.communicate()
-src = mounted_letter + ":\\"
-dst = letter_assign + ":\\"
-for item in os.listdir(src):
-    s = os.path.join(src, item)
-    d = os.path.join(dst, item)
-    if os.path.isdir(s):
-        shutil.copytree(s, d, dirs_exist_ok=True)
-    else:
-        shutil.copy2(s, d)
-    
-
+subprocess.run(["dd\\dd.exe", "if="+iso_path, "of=\\\\.\\"+letter_assign+":", "bs=4M", "--progress"])
 if wants_files:
     process = subprocess.Popen(
         ["diskpart"],
