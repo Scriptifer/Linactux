@@ -2,6 +2,7 @@ import subprocess
 import os
 import string
 import math
+import psutil
 import shutil
 import ctypes
 import sys
@@ -81,15 +82,26 @@ if isinstance(prev_output, dict):
 for idx, entry in enumerate(prev_output):
     prev_letters.append(entry['DriveLetter'])
 
+import psutil
+import string
+
+def usedletters():
+    used_letters = set()
+    partitions = psutil.disk_partitions()
+    
+    for partition in partitions:
+        if partition.device[0].isalpha():
+            used_letters.add(partition.device[0].upper())
+    
+    return used_letters
+
 def get_letter():
-    letter_assign = ""
+    used_letters = usedletters()
     for letter in string.ascii_uppercase:
-        if not (os.path.exists(letter+":") or (letter in prev_letters)):
-            letter_assign = letter
-            break
-
-
-    return letter_assign
+        if letter not in used_letters:
+            return letter
+    
+    return None
 
 iso_mb = round(os.path.getsize(iso_path) / (1024 * 1024)) + 2
 total_size = iso_mb + files_size
@@ -174,5 +186,4 @@ letter_assign = get_letter()
 process.stdin.write("assign letter="+letter_assign+"\n")
 process.communicate()
 os.system("rd "+letter_assign+":\\ /s /q")
-input("Press Enter to continue.")
 os.system(shutdown_cmd)
