@@ -3,16 +3,14 @@ Switch from Windows to Linux *without* needing a USB.
 
 > ⚠️ **Note:**  
 While Linactux has been successfully tested on bare metal with Linux Mint, compatibility with all Linux distributions is *not* guaranteed. For best results, a USB installation is still recommended.
-> 
-Some distributions do not allow this type of automated installation media, there is a risk that you will end up stuck with the Linux installation with no other OS.
 
 ---
 
-Linux Mint is confirmed to work. ✅
+Ubuntu based distributions should work. ✅
 
-Debian Netinstall does not work. ❌
+Linux Mint was tested and worked.
 
-Arch Linux may work. ⚠️
+Most distributions will experience mounting issues, we currently don't know the solution. But one workaround is running diskless Alpine Linux and then copying your ISO file over to memory, then using dd in alpine to write the ISO file to disk and reboot, this would give you a proper installation.
 
 ## 🔧 Instructions – Windows
 
