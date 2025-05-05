@@ -112,6 +112,7 @@ letter_assign = get_letter()
 process.stdin.write("assign letter="+letter_assign+"\n")
 process.communicate()
 subprocess.run(["dd\\dd.exe", "if="+iso_path, "of=\\\\.\\"+letter_assign+":", "bs=4M", "--progress"])
+prev_letters.append(letter_assign)
 if wants_files:
     process = subprocess.Popen(
         ["diskpart"],
