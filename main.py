@@ -186,6 +186,5 @@ letter_assign = get_letter()
 process.stdin.write("assign letter="+letter_assign+"\n")
 process.communicate()
 os.system("rd "+letter_assign+":\\ /s /q")
-os.system("net stop wuauserv /y")
-os.system("net stop bits /y")
-os.system(shutdown_cmd)
+if input("Do you want to reboot to Linux now? ").lower().startswith("y"):
+    os.system(shutdown_cmd)
