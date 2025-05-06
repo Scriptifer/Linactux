@@ -36,7 +36,7 @@ check_process = subprocess.run(
     text=True
 )
 
-shutdown_cmd = "shutdown /r /t 0"
+shutdown_cmd = "shutdown /r /f /t 0"
 if "True" in check_process.stdout:
     print("You may need to disable Secure Boot to prevent making the new OS unbootable.")
     if input("Do you want to enter the BIOS on restart? Once you have disabled Secure Boot, you can save and continue to boot. ").lower().startswith("y"):
