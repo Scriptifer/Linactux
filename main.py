@@ -186,5 +186,6 @@ letter_assign = get_letter()
 process.stdin.write("assign letter="+letter_assign+"\n")
 process.communicate()
 os.system("rd "+letter_assign+":\\ /s /q")
-if input("Do you want to reboot to Linux now? ").lower().startswith("y"):
+print("The next restart will enter Linux.")
+if input("Do you want to restart to enter Linux now? ").lower().startswith("y"):
     os.system(shutdown_cmd)
