@@ -69,22 +69,6 @@ if not iso_path.endswith(".iso") or not os.path.exists(iso_path):
     sys.exit(1)
 
 prev_letters = []
-prev_process = subprocess.run(
-    ["powershell", "-Command", f"Get-Volume | Where-Object {{ $_.DriveType -eq 'CD-ROM' }} | ConvertTo-Json"],
-    stdout=subprocess.PIPE,
-    stderr=subprocess.PIPE,
-    text=True
-)
-prev_output = json.loads(prev_process.stdout.strip())
-if isinstance(prev_output, dict):
-    prev_output = [prev_output]
-
-for idx, entry in enumerate(prev_output):
-    prev_letters.append(entry['DriveLetter'])
-
-import psutil
-import string
-
 def usedletters():
     used_letters = set()
     partitions = psutil.disk_partitions()
