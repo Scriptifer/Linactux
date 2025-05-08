@@ -23,7 +23,7 @@ def is_admin():
 def run_as_admin():
     script = sys.argv[0]
     params = ' '.join(sys.argv[1:])
-    ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable, f"{script} {params}", None, 1)
+    ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable, script+" "+params, None, 1)
 
 if not is_admin():
     run_as_admin()
@@ -131,45 +131,47 @@ if wants_files:
     input("Are you sure you're done? Press Enter again to confirm.")
     input("Final warning, are you really done? Press Enter once again to confirm.")
 
-print("Alright, let's go!")
-process1 = subprocess.run(
-    ["powershell", "-Command", "Get-Partition | ConvertTo-Json"],
-    stdout=subprocess.PIPE,
-    stderr=subprocess.PIPE,
-    text=True
-)
-process = subprocess.Popen(
-    ["diskpart"],
-    stdin=subprocess.PIPE,
-    stdout=subprocess.PIPE,
-    stderr=subprocess.PIPE,
-    text=True
-)
-process.stdin.write("select disk 0\n")
-efi_number = None
-for idx, partition in enumerate(json.loads(process1.stdout)):
-    partition_number = str(partition["PartitionNumber"])+"\n"
-    if partition["Type"] == "Recovery" or partition["Type"] == "Reserved":
-        process.stdin.write("select partition "+partition_number)
-        process.stdin.write("delete partition override\n")
-    elif partition["Type"] == "System" and not efi_number:
-        efi_number = partition_number
+if input("Do you want to enter the BIOS now to boot into Linux from the boot menu? ").lower().startswith("y"):
+    os.system(shutdown_cmd+" /fw")
+elif input("WARNING: This method will destroy the Windows bootloader, so without going to the BIOS would straight boot into Linux. This is useful if you have trouble entering the BIOS. Do you want to continue? ").lower().startswith("y"):
+    process1 = subprocess.run(
+        ["powershell", "-Command", "Get-Partition | ConvertTo-Json"],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        text=True
+    )
+    process = subprocess.Popen(
+        ["diskpart"],
+        stdin=subprocess.PIPE,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        text=True
+    )
+    process.stdin.write("select disk 0\n")
+    efi_number = None
+    for idx, partition in enumerate(json.loads(process1.stdout)):
+        partition_number = str(partition["PartitionNumber"])+"\n"
+        if partition["Type"] == "System" and not efi_number:
+            efi_number = partition_number
+        
+    
+    process.communicate()
+    process = subprocess.Popen(
+        ["diskpart"],
+        stdin=subprocess.PIPE,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        text=True
+    )
+    process.stdin.write("select disk 0\n")
+    process.stdin.write("select partition "+efi_number)
+    letter_assign = get_letter()
+    process.stdin.write("assign letter="+letter_assign+"\n")
+    process.communicate()
+    os.system("rd "+letter_assign+":\\ /s /q")
+    print("Restarting now will enter Linux.")
+    if input("Do you want to restart now? ").lower().startswith("y"):
+        os.system(shutdown_cmd)
 
-
-process.communicate()
-process = subprocess.Popen(
-    ["diskpart"],
-    stdin=subprocess.PIPE,
-    stdout=subprocess.PIPE,
-    stderr=subprocess.PIPE,
-    text=True
-)
-process.stdin.write("select disk 0\n")
-process.stdin.write("select partition "+efi_number)
-letter_assign = get_letter()
-process.stdin.write("assign letter="+letter_assign+"\n")
-process.communicate()
-os.system("rd "+letter_assign+":\\ /s /q")
-print("The next restart will enter Linux.")
-if input("Do you want to restart to enter Linux now? ").lower().startswith("y"):
-    os.system(shutdown_cmd)
+else:
+    print("You can still enter the BIOS to boot Linux from the boot menu..")
