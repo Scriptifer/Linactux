@@ -6,16 +6,14 @@ While Linactux has been successfully tested on bare metal with Linux Mint, compa
 
 ---
 
-Ubuntu based distributions should work. ✅
+Non Ubuntu based distributions will experience mounting errors.
 
-Linux Mint was tested and worked.
+To fix this, (assuming you already installed Linux using this tool, works best in Alpine Linux diskless) make sure you are connected to the internet inside the Linux installation, test by e.g. `ping 1.1.1.1`.
 
-Most distributions will experience mounting issues, we currently don't know the solution.
-However to properly create the installation, after you have used this tool to boot into Linux (as root):
-`wget -O - your-url-to-iso-file | dd of=yoursystemdisk bs=4M`
-`sync`
-`reboot`
-After the reboot, you can safely begin the installation without any errors.
+Run this command as root and don't forget to set the URL and system disk: `wget -O - your-url-to-iso-file | dd of=your-system-disk bs=4M oflag=sync && reboot`.
+
+After the reboot, you can safely begin the installation.
+
 
 ## 🔧 Instructions – Windows
 
