@@ -10,7 +10,12 @@ Ubuntu based distributions should work. ✅
 
 Linux Mint was tested and worked.
 
-Most distributions will experience mounting issues, we currently don't know the solution. But one workaround is running diskless Alpine Linux and then copying your ISO file over to memory, then using dd in alpine to write the ISO file to disk and reboot, this would give you a proper installation.
+Most distributions will experience mounting issues, we currently don't know the solution.
+However to properly create the installation, after you have used this tool to boot into Linux (as root):
+`wget -O - your-url-to-iso-file | dd of=yoursystemdisk bs=4M`
+`sync`
+`reboot`
+After the reboot, you can safely begin the installation without any errors.
 
 ## 🔧 Instructions – Windows
 
