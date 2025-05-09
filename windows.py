@@ -1,3 +1,4 @@
+# requires dd directory
 import subprocess
 import os
 import string
