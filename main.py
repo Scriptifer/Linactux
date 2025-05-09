@@ -7,13 +7,7 @@ import shutil
 import ctypes
 import sys
 import json
-import platform
 import time
-platform_os = platform.system()
-if platform_os != "Windows":
-    print("This script is for switching from Windows to Linux without a USB easily, not from other systems. We are thinking about whether or not to add the ability to change Linux distributions.")
-    sys.exit()
-
 def is_admin():
     try:
         return ctypes.windll.shell32.IsUserAnAdmin() != 0
