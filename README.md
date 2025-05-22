@@ -13,21 +13,24 @@ Change OS *without* needing a USB.
 2. **Install Python (if not already installed)**  
    Get it from the official site: [python.org/downloads/windows](https://www.python.org/downloads/windows)
 
-3. **Download Linactux**  
+3. **Install 7-Zip (if not already installed)**  
+   Get it from the official site: [7-zip.org](https://www.7-zip.org/)
+
+4. **Download Linactux**  
    - Extract the ZIP.  
    - Open the extracted folder.  
    - Run `windows.py` and press Yes on the UAC prompt if it appears.
 
-4. **Choose a Temporary Partition (Optional)**  
+5. **Choose a Temporary Partition (Optional)**  
    You’ll have the option to create a temporary partition to store files needed during the Linux install.
 
-5. **Enter the ISO Path**  
+6. **Enter the ISO Path**  
    Example: `C:\Users\yourname\Downloads\F96-CE_4.iso`
 
-6. **Transfer Files (if using a partition)**  
+7. **Transfer Files (if using a partition)**  
    The script will wait for you to finish copying files into the partition, ensuring you’re ready before proceeding.
 
-7. **Finalize Installation**  
+8. **Finalize Installation**  
    Once confirmed, Linactux will ask whether or not you want to skip entering the BIOS.  
    This method will **remove the Windows bootloader** and reboot your system directly into the Linux installer.
 
