@@ -91,7 +91,7 @@ def get_letter():
     
     return None
 
-iso_mb = round(os.path.getsize(iso_path) / (1024 * 1024)) + 2
+iso_mb = round(os.path.getsize(iso_path) / (1024 * 1024)) + 8
 total_size = iso_mb + files_size
 if (free / 1048576)-total_size < 0:
     print("You need to free up some space to leave room for the new OS and potentially your files.")
