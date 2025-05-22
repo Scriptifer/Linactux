@@ -137,7 +137,7 @@ if wants_files:
     input("Are you sure you're done? Press Enter again to confirm.")
     input("Final warning, are you really done? Press Enter once again to confirm.")
 
-if input("Do you want to enter the BIOS now to boot into Linux from the boot menu (type 'n' if you aren't able to access the BIOS setup)? ").lower().startswith("y"):
+if input("Do you want to enter the BIOS now to boot into Linux from the boot menu (type 'n' if you are unable to access the BIOS setup)? ").lower().startswith("y"):
     os.system(shutdown_cmd+" /fw")
 elif input("WARNING: This method will destroy the Windows bootloader, so without going to the BIOS would straight boot into Linux. This is useful if you have trouble entering the BIOS. Do you want to continue? ").lower().startswith("y"):
     process1 = subprocess.run(
