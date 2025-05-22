@@ -1,4 +1,3 @@
-# requires dd directory
 import subprocess
 import os
 import string
@@ -30,6 +29,17 @@ check_process = subprocess.run(
     stderr=subprocess.PIPE,
     text=True
 )
+_7zip_exec = "7z"
+if not shutil.which(_7zip_exec):
+    _7zip_exec = "C:\\Program Files\\7-Zip\\7z"
+
+if not shutil.which(_7zip_exec):
+    _7zip_exec = "C:\\Program Files (x86)\\7-Zip\\7z"
+
+if not shutil.which(_7zip_exec):
+    print("Couldn't find 7z, have you installed 7-zip?")
+    sys.exit(1)
+
 
 shutdown_cmd = "shutdown /r /f /t 0"
 if "True" in check_process.stdout:
@@ -63,7 +73,6 @@ if not iso_path.endswith(".iso") or not os.path.exists(iso_path):
     print("Invalid ISO path!")
     sys.exit(1)
 
-prev_letters = []
 def usedletters():
     used_letters = set()
     partitions = psutil.disk_partitions()
@@ -99,11 +108,13 @@ process.stdin.write("select disk 0\n")
 process.stdin.write("select volume C\n")
 process.stdin.write("shrink desired="+str(total_size)+"\n")
 process.stdin.write("create partition primary size="+str(iso_mb)+"\n")
+process.stdin.write("format fs=fat32 quick\n")
+process.stdin.write("set id=c12a7328-f81f-11d2-ba4b-00a0c93ec93b\n")
 letter_assign = get_letter()
+newos_letter = letter_assign
 process.stdin.write("assign letter="+letter_assign+"\n")
 process.communicate()
-subprocess.run(["dd\\dd.exe", "if="+iso_path, "of=\\\\.\\"+letter_assign+":", "bs=4M", "--progress"])
-prev_letters.append(letter_assign)
+subprocess.run([_7zip_exec, "x", iso_path, "-o"+letter_assign+":\\"])
 if wants_files:
     process = subprocess.Popen(
         ["diskpart"],
@@ -126,7 +137,7 @@ if wants_files:
     input("Are you sure you're done? Press Enter again to confirm.")
     input("Final warning, are you really done? Press Enter once again to confirm.")
 
-if input("Do you want to enter the BIOS now to boot into Linux from the boot menu? ").lower().startswith("y"):
+if input("Do you want to enter the BIOS now to boot into Linux from the boot menu (type 'n' if you aren't able to access the BIOS setup)? ").lower().startswith("y"):
     os.system(shutdown_cmd+" /fw")
 elif input("WARNING: This method will destroy the Windows bootloader, so without going to the BIOS would straight boot into Linux. This is useful if you have trouble entering the BIOS. Do you want to continue? ").lower().startswith("y"):
     process1 = subprocess.run(
@@ -135,22 +146,13 @@ elif input("WARNING: This method will destroy the Windows bootloader, so without
         stderr=subprocess.PIPE,
         text=True
     )
-    process = subprocess.Popen(
-        ["diskpart"],
-        stdin=subprocess.PIPE,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-        text=True
-    )
-    process.stdin.write("select disk 0\n")
     efi_number = None
     for idx, partition in enumerate(json.loads(process1.stdout)):
         partition_number = str(partition["PartitionNumber"])+"\n"
-        if partition["Type"] == "System" and not efi_number:
+        if partition["Type"] == "System" and not (efi_number and partition['DriveLetter'] == newos_letter):
             efi_number = partition_number
         
     
-    process.communicate()
     process = subprocess.Popen(
         ["diskpart"],
         stdin=subprocess.PIPE,
@@ -169,4 +171,4 @@ elif input("WARNING: This method will destroy the Windows bootloader, so without
         os.system(shutdown_cmd)
 
 else:
-    print("You can still enter the BIOS to boot Linux from the boot menu..")
+    print("You can still boot to Linux from the boot menu.")
