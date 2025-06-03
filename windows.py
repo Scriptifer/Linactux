@@ -109,11 +109,11 @@ process.stdin.write("select volume C\n")
 process.stdin.write("shrink desired="+str(total_size)+"\n")
 process.stdin.write("create partition primary size="+str(iso_mb)+"\n")
 process.stdin.write("format fs=fat32 quick\n")
-process.stdin.write("set id=c12a7328-f81f-11d2-ba4b-00a0c93ec93b\n")
 letter_assign = get_letter()
 newos_letter = letter_assign
 process.stdin.write("assign letter="+letter_assign+"\n")
 process.communicate()
+os.system("manage-bde -off "+letter_assign+":") # disable automatic bitlocker
 subprocess.run([_7zip_exec, "x", iso_path, "-o"+letter_assign+":\\"])
 if wants_files:
     process = subprocess.Popen(
