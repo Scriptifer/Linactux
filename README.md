@@ -52,9 +52,9 @@ If you're new to Linux, you might try pressing **Ctrl + V** to paste text into t
 
 ---
 
-## 🔧 Instructions – Puppy Linux to install your Linux distribution
+## 🔧 Instructions – to install your Linux distribution
 
-1. **Click Term in the desktop (single click)**  
+1. **Open Terminal**  
    This will prepare you for commands for next steps.
 
 2. **Find your internal disk**  
