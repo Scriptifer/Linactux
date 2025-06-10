@@ -165,7 +165,7 @@ elif input("WARNING: This method will destroy the Windows bootloader, so without
     letter_assign = get_letter()
     process.stdin.write("assign letter="+letter_assign+"\n")
     process.communicate()
-    os.system("rd "+letter_assign+":\\ /s /q")
+    os.rename(letter_assign+":\\EFI\\Microsoft\\Boot\\bootmgfw.efi", letter_assign+":\\EFI\\Microsoft\\Boot\\bootmgfw.disabledefi")
     print("Restarting now will enter Linux.")
     if input("Do you want to restart now? ").lower().startswith("y"):
         os.system(shutdown_cmd)
