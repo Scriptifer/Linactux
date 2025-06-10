@@ -57,6 +57,9 @@ If you're new to Linux, you might try pressing **Ctrl + V** to paste text into t
 1. **Open Terminal**  
    This will prepare you for commands for next steps.
 
+2. **Connect to the internet**
+   If you have ethernet, it should be already set up. For Wifi, right click on the 2-windows button in the bottom and you can connect to Wifi in there.
+
 2. **Find your internal disk**  
    Type `lsblk` and press Enter.  
    If you're using NVME, it should be `nvme0n1`.  
