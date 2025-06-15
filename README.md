@@ -3,10 +3,12 @@ Change OS *without* needing a USB.
 
 > ⚠️ **Note:**  
 > For best results, a USB installation is still recommended.
+>
+> FOR UBUNTU-BASED DISTRIBUTIONS, DIRECTLY USE THE DISTRIBUTION ISO INSTEAD OF PUPPY LINUX OR ANYTHING ELSE.
 
 ## 🔧 Instructions – Windows
-
-1. **Download Puppy Linux ISO**  
+MAKE SURE SECURE BOOT IS OFF
+1. **Download Puppy Linux ISO** ( a linux distribution suitable for writing iso to disk, for being diskless )
    Choose and download, F96-CE is preferred for best hardware support, so you don't get stuck without internet.  
    https://f96.puppylinux.com/
 
